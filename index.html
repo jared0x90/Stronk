@@ -2,41 +2,36 @@
 <html>
 <meta charset="UTF-8">
 <title>Stronk</title>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/shelper.js"></script>
 <link href="css/style.css" rel="stylesheet" media="all">
 <div id="logo">
 <img src="img/logo.png" id="logo">
 </div>
-<div id="result">
+<div id="starts">
 </div>
 <hr>
-<table id="create">
-	<tr>
-		<td style="text-align:right;">Username:</td>
-		<td><input type="text" name="user"></td>
-	</tr>
-	<tr>
-		<td style="text-align:right;">Password:</td>
-		<td><input type="password" name="password"></td>
-	</tr>
-	<tr>
-		<td style="text-align:right;">Confirm Password:</td>
-		<td><input type="password" name="password"></td>
-	</tr>
-	<tr>
-		<th colspan="2">
-			<button id="create">Create Account</button>
-		</th>
-	</tr>
-</table>
+<div id="result">
+</div>
 <script>
-if(typeof(Storage)!=="undefined")
-  {
-  localStorage.lastname+="Smith";
-  document.getElementById("result").innerHTML="Last name: " + localStorage.lastname;
-  }
-else
-  {
-  document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
-  }
+//localStorage.clear();
+// Check for storage support
+if(!(typeof(Storage)!=="undefined")) {
+	document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
+} else {
+	if(!is_stored("stronk_starts")){
+		localStorage.stronk_starts = "0";
+	}
+	value = localStorage.stronk_starts;
+	value = parseInt(value);
+	value += 1;
+	localStorage.stronk_starts = value;
+	//localStorage.stronk_starts = toString(parseInt(localStorage.stronk_starts) + 1);
+	document.getElementById("starts").innerHTML = "Starts: " + value;
+	if(!is_stored("stronk_password")){
+		//$("#result").load("html/create-account.html");
+		$("#result").html('<object type="text/html" data="html/create-account.html" ></object>');
+	}
+}
 </script>
 </html>
