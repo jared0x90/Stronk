@@ -19,9 +19,15 @@
 <script>
 $(function(){
 	$("#button_shred").click(function(){
-		alert('If you are certain type: YES')
+		var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
+		if(confirm_shred == "YES"){
+			localStorage.clear();
+			if(!alert('NOTICE: Local storage ERASED!')){window.location.reload();}
+		} else {
+			alert('Shred aborted.');
+		}
 	});
-	//localStorage.clear();
+
 	// Check for storage support
 	if(!(typeof(Storage)!=="undefined")) {
 		document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
