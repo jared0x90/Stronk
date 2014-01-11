@@ -6,17 +6,20 @@
 <div id="logo">
 <img src="img/logo.png" id="logo">
 </div>
+<div id="result">
+</div>
+<hr>
 <table id="create">
 	<tr>
-		<td>Username</td>
+		<td style="text-align:right;">Username:</td>
 		<td><input type="text" name="user"></td>
 	</tr>
 	<tr>
-		<td>Password</td>
+		<td style="text-align:right;">Password:</td>
 		<td><input type="password" name="password"></td>
 	</tr>
 	<tr>
-		<td>Confirm Password</td>
+		<td style="text-align:right;">Confirm Password:</td>
 		<td><input type="password" name="password"></td>
 	</tr>
 	<tr>
@@ -25,4 +28,15 @@
 		</th>
 	</tr>
 </table>
+<script>
+if(typeof(Storage)!=="undefined")
+  {
+  localStorage.lastname+="Smith";
+  document.getElementById("result").innerHTML="Last name: " + localStorage.lastname;
+  }
+else
+  {
+  document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
+  }
+</script>
 </html>
