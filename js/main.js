@@ -29,7 +29,7 @@ function create_account(){
         var password_hash = SHA256(password_salt + password_plain);
         localStorage.stronk_salt = password_salt;
         localStorage.stronk_password = password_hash;
-        alert("Your password: " + password_plain + "\nhas been stored. DO NOT LOSE IT! ");
+        if(!alert("Your password: " + password_plain + "\nhas been stored. DO NOT LOSE IT! ")){window.location = "index.html";};
     }
 }
 
@@ -37,7 +37,7 @@ function shred(){
     var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
     if(confirm_shred == "YES"){
         localStorage.clear();
-        if(!alert('NOTICE: Local storage ERASED!')){window.location.reload();}
+        if(!alert('NOTICE: Local storage ERASED!')){window.location = "index.html";}
     } else {
         alert('Shred aborted.');
     }
