@@ -43,8 +43,8 @@ $(function(){
         //localStorage.stronk_starts = toString(parseInt(localStorage.stronk_starts) + 1);
         document.getElementById("starts").innerHTML = "Starts: " + value;
         if(!is_stored("stronk_password") || !is_stored("stronk_salt")){
-            //$("#result").load("html/create-account.html");
-            $("#result").html('<object type="text/html" data="html/create-account.html" ></object>');
+            $("#result").load("html/create-account.html");
+            //$("#result").html('<object type="text/html" data="html/create-account.html" ></object>');
         } else {
 
         }

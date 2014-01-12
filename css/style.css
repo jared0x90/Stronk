@@ -1,9 +1,12 @@
+h1 {
+    font-size: 1.5em;
+}
 #logo{
     margin: auto;
     text-align: center;
 }
 
-#starts, #result, #shred{
+#starts, #result, #shred, #main, #create{
     margin: auto;
     text-align: center;
 }
@@ -11,3 +14,4 @@
 #create td{
     text-align: left;
 }
+
