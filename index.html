@@ -2,8 +2,8 @@
 <script src="js/shelper.js"></script>
 <script>
 if(!is_stored("stronk_password") || !is_stored("stronk_salt")){
-    window.location = "create.html";
+    window.location.replace("create.html");
 } else {
-    window.location = "login.html";
+    window.location.replace("login.html");
 }
 </script>
