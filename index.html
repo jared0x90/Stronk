@@ -17,35 +17,36 @@
 <button id="button_shred">Shred!</button>
 </div>
 <script>
-$(function(){
-	$("#button_shred").click(function(){
-		var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
-		if(confirm_shred == "YES"){
-			localStorage.clear();
-			if(!alert('NOTICE: Local storage ERASED!')){window.location.reload();}
-		} else {
-			alert('Shred aborted.');
-		}
-	});
 
-	// Check for storage support
-	if(!(typeof(Storage)!=="undefined")) {
-		document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
-	} else {
-		if(!is_stored("stronk_starts")){
-			localStorage.stronk_starts = "0";
-		}
-		value = localStorage.stronk_starts;
-		value = parseInt(value);
-		value += 1;
-		localStorage.stronk_starts = value;
-		//localStorage.stronk_starts = toString(parseInt(localStorage.stronk_starts) + 1);
-		document.getElementById("starts").innerHTML = "Starts: " + value;
-		if(!is_stored("stronk_password")){
-			//$("#result").load("html/create-account.html");
-			$("#result").html('<object type="text/html" data="html/create-account.html" ></object>');
-		}
-	}
+$(function(){
+    $("#button_shred").click(function(){
+        var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
+        if(confirm_shred == "YES"){
+            localStorage.clear();
+            if(!alert('NOTICE: Local storage ERASED!')){window.location.reload();}
+        } else {
+            alert('Shred aborted.');
+        }
+    });
+
+    // Check for storage support
+    if(!(typeof(Storage)!=="undefined")) {
+        document.getElementById("result").innerHTML="Sorry your device is not supported. :*(";
+    } else {
+        if(!is_stored("stronk_starts")){
+            localStorage.stronk_starts = "0";
+        }
+        value = localStorage.stronk_starts;
+        value = parseInt(value);
+        value += 1;
+        localStorage.stronk_starts = value;
+        //localStorage.stronk_starts = toString(parseInt(localStorage.stronk_starts) + 1);
+        document.getElementById("starts").innerHTML = "Starts: " + value;
+        if(!is_stored("stronk_password")){
+            //$("#result").load("html/create-account.html");
+            $("#result").html('<object type="text/html" data="html/create-account.html" ></object>');
+        }
+    }
 });
 
 </script>

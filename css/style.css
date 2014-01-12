@@ -1,14 +1,13 @@
-
 #logo{
-	margin: auto;
-	text-align: center;
+    margin: auto;
+    text-align: center;
 }
 
 #starts, #result, #shred{
-	margin: auto;
-	text-align: center;	
+    margin: auto;
+    text-align: center;
 }
 
 #create td{
-	text-align: left;
+    text-align: left;
 }
