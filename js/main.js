@@ -42,7 +42,7 @@ function create_account(){
         localStorage.stronk_password = password_hash;
         alert(buildAESKey(password_plain, password_salt));
 
-        if(!alert("Your password: " + password_plain + "\nhas been stored. DO NOT LOSE IT! ")){window.location.replace("index.html");};
+        if(!alert("Your password: " + password_plain + "\nhas been stored securely. DO NOT LOSE IT!\nIt is NOT recoverable.")){window.location.replace("index.html");};
     }
 }
 

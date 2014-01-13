@@ -1,6 +1,24 @@
+* {
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
 h1 {
     font-size: 1.5em;
 }
+
+button {
+    background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: poiner;
+    border:none;
+}
+
 #logo{
     margin: auto;
     text-align: center;
@@ -9,6 +27,10 @@ h1 {
 #starts, #result, #shred, #main, #create{
     margin: auto;
     text-align: center;
+}
+
+#shred {
+    margin-top: 50px;
 }
 
 #create td{
