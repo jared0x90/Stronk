@@ -3,16 +3,17 @@
 <meta charset="UTF-8">
 <title>Stronk</title>
 <link href="css/style.css" rel="stylesheet" media="all">
-<script src="js/shelper.js"></script>
-<script src="js/cryptico/hash.js"></script>
+<script src="js/hash.js"></script>
 <script src="js/main.js"></script>
 <div id="logo">
     <img src="img/logo.png" id="logo">
 </div>
 <div id="main">
     <h1>Login</h1>
-
+    Password <input type="password" id="password"><br>
+    <button id="value" onclick="process_login();"></button>
 </div>
+
 <div id="shred">
     <button id="button_shred" onclick="shred();">Shred!</button>
 </div>

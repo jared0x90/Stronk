@@ -40,6 +40,8 @@ function create_account(){
         localStorage.stronk_user = user_filtered;
         localStorage.stronk_salt = password_salt;
         localStorage.stronk_password = password_hash;
+        alert(buildAESKey(password_plain, password_salt));
+
         if(!alert("Your password: " + password_plain + "\nhas been stored. DO NOT LOSE IT! ")){window.location.replace("index.html");};
     }
 }
@@ -52,4 +54,16 @@ function shred(){
     } else {
         alert('Shred aborted.');
     }
+}
+
+function buildAESKey(password_plain, salt){
+    return SHA256(SHA256(password + salt) + password_plain);
+}
+
+function is_stored(variable_name){
+    return (!(localStorage.getItem(variable_name) === null));
+}
+
+function process_login(){
+
 }
