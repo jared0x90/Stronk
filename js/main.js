@@ -1,4 +1,5 @@
 function create_account(){
+    var user_plain = document.getElementById('user').value;
     var password_plain = document.getElementById('password').value;
     var confirm_password_plain = document.getElementById('confirm_password').value;
     var run_create = true;
@@ -6,14 +7,23 @@ function create_account(){
     var salt_characters = "0123456789abcdef";
     var password_salt = "";
 
+    // Filter username
+    var user_filtered = user_plain;
+    var user_filtered = user_filtered.trim();
+    var user_filtered = user_filtered.replace(/[^0-9A-Za-z]/g, '');
+
     // Check for potential errors
-    if(password_plain.length < 8){
-        error_message += "Use a password that is at least 8 characters. ";
+    if(user_filtered != user_plain){
         run_create = false;
+        error_message +="Username included invalid characters. Allowable characters are A-Z and 0-9. "
+    }
+    if(password_plain.length < 8){
+        run_create = false;
+        error_message += "Use a password that is at least 8 characters. ";
     }
     if(password_plain != confirm_password_plain){
-        error_message += "Passwords do not match. ";
         run_create = false;
+        error_message += "Passwords do not match. ";
     }
 
     // If there was an error display it otherwise create the account
@@ -27,6 +37,7 @@ function create_account(){
 
         // Generate password hash
         var password_hash = SHA256(password_salt + password_plain);
+        localStorage.stronk_user = user_filtered;
         localStorage.stronk_salt = password_salt;
         localStorage.stronk_password = password_hash;
         if(!alert("Your password: " + password_plain + "\nhas been stored. DO NOT LOSE IT! ")){window.location.replace("index.html");};
