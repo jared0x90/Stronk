@@ -37,10 +37,14 @@ function create_account(){
 
         // Generate password hash
         var password_hash = SHA256(password_salt + password_plain);
-        localStorage.stronk_user = user_filtered;
+        var aes_key = buildAESKey(password_plain, password_salt);
+        var encrypted_user = sjcl.hash.sha256(user_filtered);
+        //localStorage.stronk_user = user_filtered;
         localStorage.stronk_salt = password_salt;
         localStorage.stronk_password = password_hash;
-        alert(buildAESKey(password_plain, password_salt));
+        alert(encrypted_user);
+
+
 
         if(!alert("Your password: " + password_plain + "\nhas been stored securely. DO NOT LOSE IT!\nIt is NOT recoverable.")){window.location.replace("index.html");};
     }
