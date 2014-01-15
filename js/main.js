@@ -1,3 +1,9 @@
+app_data = {
+    "user": 0,
+    "pass": 1,
+    "public_key": 2
+}
+
 function create_account(){
     var user_plain = document.getElementById('user').value;
     var password_plain = document.getElementById('password').value;
@@ -6,6 +12,7 @@ function create_account(){
     var error_message = "";
     var salt_characters = "0123456789abcdef";
     var password_salt = "";
+    var encrypted_user = "";
 
     // Filter username
     var user_filtered = user_plain;
@@ -38,15 +45,24 @@ function create_account(){
         // Generate password hash
         var password_hash = SHA256(password_salt + password_plain);
         var aes_key = buildAESKey(password_plain, password_salt);
-        var encrypted_user = sjcl.hash.sha256(user_filtered);
-        //localStorage.stronk_user = user_filtered;
-        localStorage.stronk_salt = password_salt;
-        localStorage.stronk_password = password_hash;
-        alert(encrypted_user);
 
-
-
-        if(!alert("Your password: " + password_plain + "\nhas been stored securely. DO NOT LOSE IT!\nIt is NOT recoverable.")){window.location.replace("index.html");};
+        triplesec.encrypt ({
+            data:          new triplesec.Buffer(user_filtered),
+            key:           new triplesec.Buffer(aes_key),
+            progress_hook: function (obj) { alert(obj); }
+        }, function(err, buff) {
+            if (! err) {
+                // Copy password out of the buffer
+                encrypted_user = buff.toString('hex');
+                localStorage.stronk_salt = password_salt;
+                localStorage.stronk_password = password_hash;
+                localStorage.stronk_user = encrypted_user;
+                if(!alert("Your password: " + password_plain + "\nhas been stored securely. DO NOT LOSE IT!\nIt is NOT recoverable.")){window.location.replace("index.html");};
+            } else {
+                alert('error');
+                //alert("Error: " + err)
+            }
+        });
     }
 }
 
