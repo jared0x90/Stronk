@@ -1,10 +1,33 @@
+//localStorage.clear();
+
 app_data = {
     "user": 0,
     "pass": 1,
     "public_key": 2
 }
+progress = [];
+reset_progress = function(msg) {
+    progress = [];
+    return $("#progress-summary").html(msg || '');
+};
+create_account_progress_hook = function(p) {
+    var h, pr, _i, _len;
+    if (progress.length && (progress[progress.length - 1].what === p.what)) {
+        progress[progress.length - 1] = p;
+    } else {
+        progress.push(p);
+    }
+    h = "Encrying user details<br><br>";
+    for (_i = 0, _len = progress.length; _i < _len; _i++) {
+        pr = progress[_i];
+        h += "<li>" + pr.what + " " + pr.i + "/" + pr.total + "</li>";
+    }
+    return $("#create_account_progress_summary").html(h);
+};
+
 
 function create_account(){
+    $("#create_account_progress_summary").html("Verifying details...");
     var user_plain = document.getElementById('user').value;
     var password_plain = document.getElementById('password').value;
     var confirm_password_plain = document.getElementById('confirm_password').value;
@@ -37,7 +60,12 @@ function create_account(){
     if(!run_create){
         alert("Error: " + error_message);
     } else {
+        $("#create_account_progress_summary").html("Salting &amp; hashing password...");
         // Generate salt
+        $("#button_create_account").attr("disabled", "disabled");
+        $("#progress_bar_th").prepend('<img src="img/loadbar.gif">');
+        // $("#button_create_account").hide(200);
+
         for(var salt_position = 1; salt_position < 64; salt_position++){
             password_salt += salt_characters.charAt(Math.floor(Math.random() * salt_characters.length));
         }
@@ -45,11 +73,11 @@ function create_account(){
         // Generate password hash
         var password_hash = SHA256(password_salt + password_plain);
         var aes_key = buildAESKey(password_plain, password_salt);
-
+        reset_progress();
         triplesec.encrypt ({
             data:          new triplesec.Buffer(user_filtered),
             key:           new triplesec.Buffer(aes_key),
-            progress_hook: function (obj) { alert(obj); }
+            progress_hook: create_account_progress_hook
         }, function(err, buff) {
             if (! err) {
                 // Copy password out of the buffer
@@ -59,8 +87,7 @@ function create_account(){
                 localStorage.stronk_user = encrypted_user;
                 if(!alert("Your password: " + password_plain + "\nhas been stored securely. DO NOT LOSE IT!\nIt is NOT recoverable.")){window.location.replace("index.html");};
             } else {
-                alert('error');
-                //alert("Error: " + err)
+                alert("Error: " + err)
             }
         });
     }
