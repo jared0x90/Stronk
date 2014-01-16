@@ -1,7 +1,7 @@
 <!doctype html>
 <script src="js/main.js"></script>
 <script>
-if(!is_stored("stronk_password") || !is_stored("stronk_salt") || !is_stored("stronk_user") ){
+if(!is_stored("app_data")){
     window.location.replace("create.html");
 } else {
     window.location.replace("login.html");
