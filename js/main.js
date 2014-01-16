@@ -120,5 +120,4 @@ function process_login(){
             alert(err)
         }
     });
-
 }
