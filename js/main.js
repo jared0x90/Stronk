@@ -2,7 +2,6 @@
 app_data = {
     "uid": 0,
     "user": 0,
-    "pass": 0,
     "public_key": 0,
     "private_key": 0
 }
@@ -12,19 +11,28 @@ reset_progress = function(msg) {
     progress = [];
     return $("#progress-summary").html(msg || '');
 };
+
 create_account_progress_hook = function(p) {
+    update_progress_hook(p, "create_account_progress_summary");
+}
+
+login_account_progress_hook = function(p){
+    update_progress_hook(p, "login_progress");
+}
+
+function update_progress_hook(p, element_id){
     var h, pr, _i, _len;
     if (progress.length && (progress[progress.length - 1].what === p.what)) {
         progress[progress.length - 1] = p;
     } else {
         progress.push(p);
     }
-    h = "Encrypting user details<br><br>";
+    h = "Processing user details<br><br>";
     for (_i = 0, _len = progress.length; _i < _len; _i++) {
         pr = progress[_i];
         h += "<li>" + pr.what + " " + pr.i + "/" + pr.total + "</li>";
     }
-    return $("#create_account_progress_summary").html(h);
+    return $("#" + element_id).html(h);
 };
 
 
@@ -63,10 +71,7 @@ function create_account(){
         $("#button_create_account").attr("disabled", "disabled");
         $("#progress_bar_th").prepend('<img src="img/loadbar.gif">');
         app_data.user = user_filtered;
-        app_data.pass = password_plain;
 
-
-        // Generate password hash
         reset_progress();
         triplesec.encrypt ({
             data:          new triplesec.Buffer(JSON.stringify(app_data)),
@@ -78,7 +83,7 @@ function create_account(){
                 localStorage.app_data = buff.toString('hex');
                 if(!alert("Your password: " + password_plain + "\nand user details have been\nstored securely. DO NOT LOSE!\nThey are NOT recoverable!")){window.location.replace("index.html");};
             } else {
-                alert("Error: " + err)
+                alert(err)
             }
         });
     }
@@ -99,5 +104,21 @@ function is_stored(variable_name){
 }
 
 function process_login(){
+    var password_plain = document.getElementById('password').value;
+    var encrypted_app_data = localStorage.app_data;
+
+    reset_progress();
+    triplesec.decrypt ({
+        data:          new triplesec.Buffer(encrypted_app_data, "hex"),
+        key:           new triplesec.Buffer(password_plain),
+        progress_hook: login_account_progress_hook
+    }, function(err, buff) {
+        if (! err) {
+            app_data = JSON.parse(buff.toString());
+            if(!alert("Your data:\n" + JSON.stringify(app_data) + "\nand user details have been\nloaded securely.")){window.location.replace("index.html");};
+        } else {
+            alert(err)
+        }
+    });
 
 }

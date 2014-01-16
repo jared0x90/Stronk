@@ -24,13 +24,14 @@ button {
     text-align: center;
 }
 
-#starts, #result, #shred, #main, #create{
+#starts, #result, #shred, #main, #create, #login_progress{
     margin: auto;
     text-align: center;
 }
 
 #shred {
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 #create td{
