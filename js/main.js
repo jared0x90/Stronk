@@ -1,9 +1,10 @@
 // Initialize variables
+RSA_STRENGTH = 2048;
 app_data = {
     "uid": 0,
     "user": 0,
-    "public_key": 0,
-    "private_key": 0
+    "rsa_passphrase": 0,
+    "rsa_fingerprint": 0
 }
 progress = [];
 
@@ -67,6 +68,14 @@ function create_account(){
     if(!run_create){
         alert("Error: " + error_message);
     } else {
+        // Create RSA key pair info
+        $("#create_account_progress_summary").html("Generating RSA key pair.<br>This may take some time...");
+        var new_rsa_key_base = create_rsa_basekey(password_plain);
+        var new_rsa_key = cryptico.generateRSAKey(new_rsa_key_base, RSA_STRENGTH);
+        app_data.rsa_passphrase = new_rsa_key_base;
+        app_data.rsa_fingerprint = cryptico.publicKeyID(cryptico.publicKeyString(new_rsa_key));
+
+        // Encrypt user details
         $("#create_account_progress_summary").html("Encrypting user details...");
         $("#button_create_account").attr("disabled", "disabled");
         $("#progress_bar_th").prepend('<img src="img/loadbar.gif">');
@@ -83,10 +92,22 @@ function create_account(){
                 localStorage.app_data = buff.toString('hex');
                 if(!alert("Your password: " + password_plain + "\nand user details have been\nstored securely. DO NOT LOSE!\nThey are NOT recoverable!")){window.location.replace("index.html");};
             } else {
-                alert(err)
+                alert(err);
             }
         });
     }
+}
+
+var create_rsa_basekey = function (pass){
+    var keyout = "";
+    var hashbase = pass;
+    for(j = 0; j < 8; j++){
+        for(var i = 0; i < 256; i++){
+            hashbase = cryptico.publicKeyID(hashbase + pass + random_string(16, 'aA#!'));
+        }
+        keyout = keyout + hashbase;
+    }
+    return keyout;
 }
 
 function shred(){
@@ -97,6 +118,17 @@ function shred(){
     } else {
         alert('Shred aborted.');
     }
+}
+
+var random_string = function (length, chars) {
+    var mask = '';
+    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (chars.indexOf('#') > -1) mask += '0123456789';
+    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+    var result = '';
+    for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
+    return result;
 }
 
 function is_stored(variable_name){
