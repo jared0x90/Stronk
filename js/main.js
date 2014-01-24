@@ -20,8 +20,7 @@ create_account_progress_hook = function(p) {
 login_account_progress_hook = function(p){
     update_progress_hook(p, "login_progress");
 }
-
-function update_progress_hook(p, element_id){
+var update_progress_hook = function(p, element_id){
     var h, pr, _i, _len;
     if (progress.length && (progress[progress.length - 1].what === p.what)) {
         progress[progress.length - 1] = p;
@@ -36,8 +35,7 @@ function update_progress_hook(p, element_id){
     return $("#" + element_id).html(h);
 };
 
-
-function create_account(){
+var create_account = function(){
     $("#create_account_progress_summary").html("Verifying details...");
     var user_plain = document.getElementById('user').value;
     var password_plain = document.getElementById('password').value;
@@ -109,8 +107,7 @@ var create_rsa_basekey = function (pass){
     }
     return keyout;
 }
-
-function shred(){
+var shred = function(){
     var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
     if(confirm_shred == "YES"){
         localStorage.clear();
@@ -130,12 +127,10 @@ var random_string = function (length, chars) {
     for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
     return result;
 }
-
-function is_stored(variable_name){
+var is_stored = function(variable_name){
     return (!(localStorage.getItem(variable_name) === null));
 }
-
-function process_login(){
+var process_login = function(){
     var password_plain = document.getElementById('password').value;
     var encrypted_app_data = localStorage.app_data;
 
