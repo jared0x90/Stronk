@@ -1,6 +1,12 @@
 <!doctype html>
 <script src="js/main.js"></script>
 <script>
+if ( isPhoneGap() ) {
+    alert("Running on PhoneGap!");
+} else {
+    alert("Not running on PhoneGap!");
+}
+
 if(!is_stored("app_data")){
     window.location.replace("create.html");
 } else {

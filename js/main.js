@@ -8,18 +8,43 @@ app_data = {
 }
 progress = [];
 
-reset_progress = function(msg) {
+function isPhoneGap() {
+    /*
+
+    From  http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
+
+    Useage:
+
+    if ( isPhoneGap() ) {
+        alert("Running on PhoneGap!");
+    } else {
+        alert("Not running on PhoneGap!");
+    }
+
+    */
+    if (window.device) {
+      // Running on PhoneGap
+      return true;
+    } else {
+        return false;
+
+    }
+}
+
+
+var reset_progress = function(msg) {
     progress = [];
     return $("#progress-summary").html(msg || '');
 };
 
-create_account_progress_hook = function(p) {
+var create_account_progress_hook = function(p) {
     update_progress_hook(p, "create_account_progress_summary");
-}
+};
 
-login_account_progress_hook = function(p){
+var login_account_progress_hook = function(p){
     update_progress_hook(p, "login_progress");
-}
+};
+
 var update_progress_hook = function(p, element_id){
     var h, pr, _i, _len;
     if (progress.length && (progress[progress.length - 1].what === p.what)) {
@@ -94,7 +119,7 @@ var create_account = function(){
             }
         });
     }
-}
+};
 
 var create_rsa_basekey = function (pass){
     var keyout = "";
@@ -106,7 +131,8 @@ var create_rsa_basekey = function (pass){
         keyout = keyout + hashbase;
     }
     return keyout;
-}
+};
+
 var shred = function(){
     var confirm_shred = prompt('This is unrecoverable. If you are certain type: YES');
     if(confirm_shred == "YES"){
@@ -115,7 +141,7 @@ var shred = function(){
     } else {
         alert('Shred aborted.');
     }
-}
+};
 
 var random_string = function (length, chars) {
     var mask = '';
@@ -127,9 +153,11 @@ var random_string = function (length, chars) {
     for (var i = length; i > 0; --i) result += mask[Math.round(Math.random() * (mask.length - 1))];
     return result;
 }
+
 var is_stored = function(variable_name){
     return (!(localStorage.getItem(variable_name) === null));
-}
+};
+
 var process_login = function(){
     var password_plain = document.getElementById('password').value;
     var encrypted_app_data = localStorage.app_data;
@@ -147,4 +175,5 @@ var process_login = function(){
             alert(err)
         }
     });
-}
+};
+
