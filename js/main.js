@@ -1,3 +1,6 @@
+// jQuery's Document on ready callback...
+// Let's get things a rollin....
+
 // Initialize variables
 RSA_STRENGTH = 2048;
 app_data = {
@@ -8,7 +11,7 @@ app_data = {
 }
 progress = [];
 
-function isPhoneGap() {
+var isPhoneGap = function() {
     /*
 
     From  http://stackoverflow.com/questions/8068052/phonegap-detect-if-running-on-desktop-browser
@@ -176,4 +179,3 @@ var process_login = function(){
         }
     });
 };
-
